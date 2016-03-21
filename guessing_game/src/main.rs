@@ -1,11 +1,14 @@
 /* "extern crate" is like importing a package (in rust
  * terminology, a module). "use" is like importing a
  * specific object (in rust terminology, a type).
+ * i need to use extern crate for modules that aren't in
+ * the rust standard library.
  */
 
 extern crate rand;
 
 use std::io;
+use std::cmp::Ordering;
 use rand::Rng;
 
 fn main() {
@@ -83,6 +86,21 @@ fn main() {
      */
     println!("You guessed: {}", guess);
     println!("The answer was: {}", secret_number);
+
+    /* the Ordering type is an enum containing entries for
+     * Less, Greater, and Equal. cmp is a method that can
+     * be called on any type that can be compared (in java
+     * terminology, we would say it "implements Comparable").
+     * "match" is a "statement" that can control program flow
+     * on an enum (in this case, the Ordering enum).
+     * note that the cmp method takes an immutable reference
+     * since it does not need to mutate its arguments.
+     */
+    match guess.cmp(&secret_number) {
+        Ordering::Less    => println!("Too small!"),
+        Ordering::Greater => println!("Too big!"),
+        Ordering::Equal   => println!("You win!"),
+    }
 }
 
 /*
