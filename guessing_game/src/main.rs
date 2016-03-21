@@ -108,15 +108,31 @@ fn main() {
          * the integer version of guess (although i could if i
          * wanted to).
          */
-        let guess: u32 = guess.trim().parse()
-            .expect("Please type a number");
+        /* here we're dealing with the Result that is returned
+         * by parse in a different way. rather than calling the
+         * expect method, we're using the match statement to
+         * control the code flow. Result is an enum just like
+         * Ordering, so we can decide what to do in different
+         * scenarios. i'm still hazy on what the arguments to
+         * the enum values represent and how their rules
+         * operate... but in the end, if it's okay, it returns
+         * the number. if it's not, it prints a message and
+         * continues.
+         */
+        let guess: u32 = match guess.trim().parse() {
+            Ok(num) => num,
+            Err(_) => {
+                println!("Please enter a number");
+                continue;
+            },
+        };
 
         /* the "{}" is a "placeholder". it's like C's printf
          * format specifiers, but easier and smarter. it's
          * specific to the print macros.
          */
         println!("You guessed: {}", guess);
-        println!("The answer was: {}", secret_number);
+        // println!("The answer was: {}", secret_number);
 
         /* the Ordering type is an enum containing entries for
          * Less, Greater, and Equal. cmp is a method that can
