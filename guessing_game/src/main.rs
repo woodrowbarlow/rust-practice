@@ -1,4 +1,12 @@
+/* "extern crate" is like importing a package (in rust
+ * terminology, a module). "use" is like importing a
+ * specific object (in rust terminology, a type).
+ */
+
+extern crate rand;
+
 use std::io;
+use rand::Rng;
 
 fn main() {
 
@@ -15,13 +23,22 @@ fn main() {
      * `io::macro!()`.
      */
     println!("Guess the number!");
-    println!("Please input your guess.");
+    println!("Please input your guess, between 1 and 100.");
 
+    /* rust prefers everything to be immutable. it makes
+     * things safer by design. for example, remember how
+     * i had so much trouble working with `const` in C
+     * because people often implemented functions that
+     * accept a `char *` when they should have made it take
+     * `const char *`? so we need to specify when something
+     * might be mutated.
+     */
     /* the double colon indicates that what follows is an
-     * "associated function" of the preceding type. an
-     * associated function is more or less like a static
+     * "associated function" of the preceding module or type.
+     * an associated function is more or less like a static
      * method of a Java class.
      */
+    let secret_number = rand::thread_rng().gen_range(1, 101);
     let mut guess = String::new();
 
     /* the period indicates a "method" call. methods are
@@ -65,6 +82,7 @@ fn main() {
      * specific to the print macros.
      */
     println!("You guessed: {}", guess);
+    println!("The answer was: {}", secret_number);
 }
 
 /*
