@@ -80,6 +80,27 @@ fn main() {
     io::stdin().read_line(&mut guess)
         .expect("Failed to read line");
 
+    /* soon, we'll need to compare the guess to the our
+     * secret_number. in rust, types are usually inferred;
+     * nevertheless, it uses a strong static type system
+     * (hooray!). we need to convert it to a number (in
+     * this case, a 32-bit unsigned int), using methods
+     * that are inherent to the String type.
+     * like read_line, the parse method returns a Result
+     * and we can use expect to throw a useful panic.
+     * the colon is used when declaring a variable binding
+     * in order to explicitly define a type. without it,
+     * rust would attempt to infer a type. in this case,
+     * though, the parse function is ambiguous.
+     * in rust, you can overload a variable binding to a
+     * new type. this destroys the old binding. it means
+     * that i don't need to create a new binding just for
+     * the integer version of guess (although i could if i
+     * wanted to).
+     */
+    let guess: u32 = guess.trim().parse()
+        .expect("Please type a number");
+
     /* the "{}" is a "placeholder". it's like C's printf
      * format specifiers, but easier and smarter. it's
      * specific to the print macros.
@@ -102,12 +123,3 @@ fn main() {
         Ordering::Equal   => println!("You win!"),
     }
 }
-
-/*
-four kinds of types in rust:
- * primitives
- * products, aka structs, which let you bundle stuff together
- * sums, aka enums, which let you have one of a collection of types
- * derived, which include parameterized structs and enums
-all types can have methods
-*/
